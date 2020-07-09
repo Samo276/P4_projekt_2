@@ -11,7 +11,7 @@ namespace P4Projekt_2.Baza
             : base("name=BazaPracownikow")
         {
         }
-
+        
         public virtual DbSet<Pracownicy> Pracownicy { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Zaklad> Zaklad { get; set; }

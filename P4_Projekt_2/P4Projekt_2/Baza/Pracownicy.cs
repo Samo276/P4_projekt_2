@@ -15,6 +15,21 @@ namespace P4Projekt_2.Baza
             Czas_Pracy = new HashSet<Czas_Pracy>();
         }
 
+        public Pracownicy(string id_pracownika, string imie, string nazwisko, DateTime data_Urodzenia, string adres_zamieszkania, string miasto, string region, string kraj, string kod_pocztowy, string stanowisko, string id_zakladu)
+        {
+            Id_pracownika = id_pracownika;
+            Imie = imie;
+            Nazwisko = nazwisko;
+            Data_Urodzenia = data_Urodzenia;
+            Adres_zamieszkania = adres_zamieszkania;
+            Miasto = miasto;
+            Region = region;
+            Kraj = kraj;
+            Kod_pocztowy = kod_pocztowy;
+            Stanowisko = stanowisko;
+            Id_zakladu = id_zakladu;
+        }
+
         [Key]
         [StringLength(6)]
         public string Id_pracownika { get; set; }
