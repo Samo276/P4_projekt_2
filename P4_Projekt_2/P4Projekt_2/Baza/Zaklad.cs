@@ -15,6 +15,17 @@ namespace P4Projekt_2.Baza
             Pracownicy = new HashSet<Pracownicy>();
         }
 
+        public Zaklad(string id_zakladu, string nazwa, string adres, string miasto, string region, string kraj, string kod_pocztowy)
+        {
+            Id_zakladu = id_zakladu;
+            Nazwa = nazwa;
+            Adres = adres;
+            Miasto = miasto;
+            Region = region;
+            Kraj = kraj;
+            Kod_pocztowy = kod_pocztowy;
+        }
+
         [Key]
         [StringLength(6)]
         public string Id_zakladu { get; set; }

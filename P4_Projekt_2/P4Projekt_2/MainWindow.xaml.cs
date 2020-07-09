@@ -24,28 +24,37 @@ namespace P4Projekt_2
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    
+
     public partial class MainWindow : Window
     {
+        public List<Czas_Pracy> Lista_obecnosci { get; set; }
         public List<Pracownicy> Lista_pracownikow { get; set; }
+        public List<Zaklad> Lista_Zakladow { get; set; }
+        public DateTime _savedDate { get; set; } 
+        public int _AddButton4Selection { get; set; } = 0;
+
         public string connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=BazaPracownikow;Trusted_Connection=True;";
-        private readonly BackgroundWorker worker = new BackgroundWorker();
+        private readonly BackgroundWorker worker1 = new BackgroundWorker();
+        
+
         public MainWindow()
         {         
             InitializeComponent();
+            _Label_2.Content = "Kliknij dwukrotnie przycisk wyboru aby odswierzyc";
+            _DatePicker.SelectedDate = DateTime.Now;
+            worker1.WorkerSupportsCancellation = true;
+            _Button_1.IsEnabled = false;
             
+
             DisplaySelectionButton(0, 0, 0);
             SetDefaultButtonTextAndStatus();
             
-            //--------bw
-            //worker.DoWork += worker_DoWork_loadEmplyees;
-            //worker.DoWork += worker_DoWork_loadFacilities;
-            //--------bw
             
         }
 
         private void _Button_1_Click(object sender, RoutedEventArgs e)
         {
+            _savedDate = (DateTime)_DatePicker.SelectedDate;
             DisplaySelectionButton(1, 0, 0);
         }
 
@@ -61,7 +70,12 @@ namespace P4Projekt_2
 
         private void _Button_4_Click(object sender, RoutedEventArgs e)
         {
-
+            switch (_AddButton4Selection)
+            {
+                case 1: { break; }
+                case 2: { break; }
+                case 3: { break; }
+            }
         }
 
         private void _Button_5_Click(object sender, RoutedEventArgs e)
@@ -72,11 +86,37 @@ namespace P4Projekt_2
         //background workery
         private void worker_DoWork_loadFacilities(object sender, DoWorkEventArgs e)
         {
-            throw new NotImplementedException();
+            
+            List<Zaklad> _list = new List<Zaklad>();
+            using (SqlConnection connect = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("SELECT * FROM Zaklad", connect))
+                {
+                    connect.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                        while (reader.Read())
+                        {
+
+                            _list.Add(new Zaklad(
+                                reader[0].ToString(),
+                                reader[1].ToString(),
+                                reader[2].ToString(),
+                                reader[3].ToString(),
+                                reader[4].ToString(),
+                                reader[5].ToString(),
+                                reader[6].ToString()
+                                )); 
+                        }
+                    connect.Close();
+                }
+                Lista_Zakladow = _list;
+            }
         }
+    
 
         private void worker_DoWork_loadEmplyees(object sender, DoWorkEventArgs e)
         {
+            
             List<Pracownicy> _list = new List<Pracownicy>();
             using (SqlConnection connect = new SqlConnection(connectionString))
             {
@@ -99,15 +139,39 @@ namespace P4Projekt_2
                                 reader[8].ToString(),
                                 reader[9].ToString(),
                                 reader[10].ToString()
-                                )); ;
+                                ));
                         }
                     connect.Close();
                 }
                 Lista_pracownikow = _list;
-            }
-            
+            }   
         }
+        private void worker_DoWork_atendance(object sender, DoWorkEventArgs e)
+        {
 
+            List<Czas_Pracy> _list = new List<Czas_Pracy>();
+            using (SqlConnection connect = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand($"SELECT * FROM Zaklad WHERE Data_dnia = {_savedDate}", connect))
+                {
+                    connect.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                        while (reader.Read())
+                        {
+
+                            _list.Add(new Czas_Pracy(
+                                reader[0].ToString(),
+                                 Convert.ToDateTime(reader[1]).Date,
+                                reader[2].ToString(),
+                                Convert.ToDateTime(reader[3]).TimeOfDay,
+                                Convert.ToDateTime(reader[4]).TimeOfDay
+                                ));
+                        }
+                    connect.Close();
+                }
+                Lista_obecnosci = _list;
+            }
+        }
 
         //-----------------------------------------------------------------------------------
         private void _Button_6_Click(object sender, RoutedEventArgs e)
@@ -118,42 +182,73 @@ namespace P4Projekt_2
         public void DisplaySelectionButton(int czas_pracy, int zaklady, int pracownicy)
         {
             if (!_Button_4.IsEnabled) _Button_4.IsEnabled = true;
-            if (!_Button_5.IsEnabled) _Button_5.IsEnabled = true;
+            //if (!_Button_5.IsEnabled) _Button_5.IsEnabled = true;
+            _Button_5.Visibility = Visibility.Collapsed;
+
             _DatePicker.Visibility = Visibility.Collapsed;
-            _pracownicyLista.Visibility = Visibility.Collapsed;
+            
+            _TabelaPracownikow.Visibility = Visibility.Collapsed;
+            _TabelaZakladow.Visibility = Visibility.Collapsed;
+            _TabelaObecnosci.Visibility = Visibility.Collapsed;
 
             if (czas_pracy == 1)
             {
+                _AddButton4Selection = 1;
+                _DatePicker.SelectedDate = DateTime.Now;
                 _DatePicker.Visibility = Visibility.Visible;
+                _TabelaObecnosci.Visibility = Visibility.Visible;
                 _DatePicker.IsEnabled = true;
                 _Button_1.Background = Brushes.Cyan;
                 _Image1.Source = new BitmapImage(new Uri("Pictures\\clock-512.png", UriKind.Relative));
                 _Label_1.Content = "Czas Pracy";
                 _Button_4.Content = "Dodaj Delegację/Urlop";
+
+                if (worker1.IsBusy) worker1.CancelAsync();
+                worker1.DoWork += worker_DoWork_atendance;
+                worker1.RunWorkerAsync();
+
+
+                _TabelaObecnosci.ItemsSource = Lista_obecnosci;
             }
             else _Button_1.Background = Brushes.Transparent;
 
             if (zaklady == 1)
             {
+                _AddButton4Selection = 2;
+                _TabelaZakladow.Visibility = Visibility.Visible;
                 _DatePicker.IsEnabled = false;
                 _Button_2.Background = Brushes.Cyan;
                 _Image1.Source = new BitmapImage(new Uri("Pictures\\factory_icon.png", UriKind.Relative));
                 _Label_1.Content = "Placówki";
                 _Button_4.Content = "Dodaj Placówki";
+
+                
+                if (worker1.IsBusy) worker1.CancelAsync();
+                worker1.DoWork += worker_DoWork_loadFacilities;
+                worker1.RunWorkerAsync();
+                
+
+                _TabelaZakladow.ItemsSource = Lista_Zakladow;
             }
             else _Button_2.Background = Brushes.Transparent;
 
             if (pracownicy == 1)
             {
-                _pracownicyLista.Visibility = Visibility.Visible;
+                _AddButton4Selection = 3;
+                _TabelaPracownikow.Visibility = Visibility.Visible;
                 _DatePicker.IsEnabled = false;
                 _Button_3.Background = Brushes.Cyan;
                 _Image1.Source = new BitmapImage(new Uri("Pictures\\people_icon.png", UriKind.Relative));
                 _Label_1.Content = "Pracownicy";
                 _Button_4.Content = "Dodaj Pracownika";
-                worker.DoWork += worker_DoWork_loadEmplyees;
-                worker.RunWorkerAsync();
-                _pracownicyLista.ItemsSource = Lista_pracownikow;
+
+                
+                if (worker1.IsBusy) worker1.CancelAsync();
+                worker1.DoWork += worker_DoWork_loadEmplyees;
+                worker1.RunWorkerAsync();
+                
+
+                _TabelaPracownikow.ItemsSource = Lista_pracownikow;
 
 
             }

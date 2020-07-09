@@ -19,10 +19,10 @@
         <Button x:Name="_Button_5" Content="Button_5" HorizontalAlignment="Left" Height="30" Margin="10,300,0,0" VerticalAlignment="Top" Width="132" Click="_Button_5_Click"/>
         <Button x:Name="_Button_6" Content="Button_6" HorizontalAlignment="Left" Height="30" Margin="10,363,0,0" VerticalAlignment="Top" Width="132" Click="_Button_6_Click"/>
         <Label x:Name="_Label_1" Content="Label1" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="55" Width="435" FontSize="24" FontWeight="Bold"/>
-        <Label x:Name="_Label_2" Content="Label2" HorizontalAlignment="Left" Margin="410,383,0,0" VerticalAlignment="Top" Grid.Column="1" Width="209" Height="26"/>
+        <Label x:Name="_Label_2" Content="Label2" HorizontalAlignment="Left" Margin="20,383,0,0" VerticalAlignment="Top" Grid.Column="1" Width="900" Height="26"/>
         <DatePicker x:Name="_DatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="670,11,0,0" VerticalAlignment="Top" Height="37" Width="150" FontSize="18"/>
 
-        <ListView x:Name="_pracownicyLista" Grid.Column="1" HorizontalAlignment="Left" Height="298" Margin="20,80,0,0" VerticalAlignment="Top" Width="900" SelectionChanged="ListView_SelectionChanged" Grid.ColumnSpan="1" >
+        <ListView x:Name="_TabelaPracownikow" Grid.Column="1" HorizontalAlignment="Left" Height="298" Margin="20,80,0,0" VerticalAlignment="Top" Width="900" SelectionChanged="ListView_SelectionChanged" Grid.ColumnSpan="1" >
             <ListView.View >
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id_pracownika}" Header="Id" Width="auto"/>
@@ -40,5 +40,31 @@
             </ListView.View>
         </ListView>
 
+        <ListView x:Name="_TabelaZakladow" Grid.Column="1" HorizontalAlignment="Left" Height="298" Margin="20,80,0,0" VerticalAlignment="Top" Width="900" SelectionChanged="ListView_SelectionChanged" Grid.ColumnSpan="1" >
+            <ListView.View >
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Id_zakladu}" Header="Id" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Nazwa}" Header="Nazwa" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Adres}" Header="Adres" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Miasto}" Header="Miasto" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Region}" Header="Region" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Kraj}" Header="Kraj" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Kod_pocztowy}" Header="Kod pocztowy" Width="auto"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="_TabelaObecnosci" Grid.Column="1" HorizontalAlignment="Left" Height="298" Margin="20,80,0,0" VerticalAlignment="Top" Width="900" SelectionChanged="ListView_SelectionChanged" Grid.ColumnSpan="1" >
+            <ListView.View >
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Id_pracownika}" Header="Id" Width="auto"/>
+                    <!--GridViewColumn DisplayMemberBinding="{Binding Data_dnia}" Header="Data" Width="auto"/-->
+                    <GridViewColumn DisplayMemberBinding="{Binding Obecnosc}" Header="Nazwisko" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Godzina_rozpoczecia_zmiany}" Header="Godzina rozpoczecia zmiany" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Godzina_zakonczenia_zmiany}" Header="Godzina zakonczenia zmiany" Width="auto"/>
+                    
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
