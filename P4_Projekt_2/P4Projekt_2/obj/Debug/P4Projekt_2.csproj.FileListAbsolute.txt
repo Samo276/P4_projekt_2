@@ -168,3 +168,5 @@ G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\AddEmployeeWindow.g.cs
 G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\AddEmployeeWindow.baml
 G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\AddFacilitywindow.g.cs
 G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\AddFacilitywindow.baml
+G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\Baza\AddUrlopwindow.g.cs
+G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\Baza\AddUrlopwindow.baml

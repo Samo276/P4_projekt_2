@@ -20,6 +20,12 @@ namespace P4Projekt_2.Baza
             Godzina_rozpoczecia_zmiany = godzina_rozpoczecia_zmiany;
             Godzina_zakonczenia_zmiany = godzina_zakonczenia_zmiany;
         }
+        public Czas_Pracy(string id_pracownika, DateTime data_dnia, string obecnosc)
+        {
+            Id_pracownika = id_pracownika;
+            Data_dnia = data_dnia;
+            Obecnosc = obecnosc;
+        }
 
         [Key]
         [Column(Order = 0)]

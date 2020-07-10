@@ -161,6 +161,9 @@
     <Compile Include="AddFacilitywindow.xaml.cs">
       <DependentUpon>AddFacilitywindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Baza\AddUrlopwindow.xaml.cs">
+      <DependentUpon>AddUrlopwindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Baza\sysdiagrams.cs" />
     <Compile Include="Baza\Zaklad.cs" />
     <Page Include="AddEmployeeWindow.xaml">
@@ -168,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddFacilitywindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Baza\AddUrlopwindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
