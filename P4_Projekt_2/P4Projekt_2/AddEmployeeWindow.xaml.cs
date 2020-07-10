@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,12 @@ namespace P4Projekt_2.Baza
     /// <summary>
     /// Interaction logic for AddEmployeeWindow.xaml
     /// </summary>
+    
     public partial class AddEmployeeWindow : Window
     {
+        public int _liczbaZakladow { get; set; }
+        public string _noweIdPracownika { get; set; }
+        private readonly BackgroundWorker worker = new BackgroundWorker();
         public AddEmployeeWindow()
         {
             InitializeComponent();
@@ -27,9 +32,35 @@ namespace P4Projekt_2.Baza
             _lab1.Visibility = Visibility.Collapsed;
             _tb01.Visibility = Visibility.Collapsed;
 
+            worker.WorkerSupportsCancellation = true;
+            worker.DoWork += worker_DoWork_getNewIds;
+            worker.RunWorkerAsync();
            
         }
+        private void worker_DoWork_getNewIds(object sender, DoWorkEventArgs e)
+        {
+            List<int> _new_id = new List<int>();
+            using (BazaPracownikow db = new BazaPracownikow())
+            {
+                var lp = db.Zaklad.Where(x => x.Id_zakladu != null).ToList<Zaklad>();
+                foreach (var item in lp)
+                {
+                    _new_id.Add(Convert.ToInt32(item.Id_zakladu));
+                }
+                _liczbaZakladow = _new_id.Max();
+            }
+            List<int> _new_idp = new List<int>();
+            using (BazaPracownikow db = new BazaPracownikow())
+            {
+                var lp2 = db.Pracownicy.Where(x => x.Id_pracownika != null).ToList<Pracownicy>();
+                foreach (var item in lp2)
+                {
+                    _new_idp.Add(Convert.ToInt32(item.Id_pracownika));
+                }
+                _noweIdPracownika = Convert.ToString(_new_idp.Max() + 1);
+            }
 
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             CheckIfCorrect();
@@ -66,12 +97,23 @@ namespace P4Projekt_2.Baza
             if (_tb10.Text != "") { _tb10.Background = Brushes.LightGreen; _check++; }
             else _tb10.Background = Brushes.OrangeRed;
 
-            if (_tb11.Text != "") { _tb11.Background = Brushes.LightGreen; _check++; }
+            if (_tb11.Text != "" && _tb11.Text.All(Char.IsDigit) && Convert.ToInt32(_tb11.Text) <= _liczbaZakladow) { _tb11.Background = Brushes.LightGreen; _check++; }
             else _tb11.Background = Brushes.OrangeRed;
 
             if(_check == 10)
             {
+                /*List<int> _new_id = new List<int>();
+                using (BazaPracownikow db = new BazaPracownikow())
+                {
+                    var lp = db.Pracownicy.Where(x=> x.Id_pracownika != null ).ToList<Pracownicy>();
+                    foreach (var item in lp)
+                    {
+                        _new_id.Add( Convert.ToInt32(item.Id_pracownika));
+                    }
+                    
+                }*/
                 Pracownicy _newEmployee = new Pracownicy(
+                    _noweIdPracownika,
                     _tb02.Text,
                     _tb03.Text,
                     (DateTime)_dtp04.SelectedDate,
@@ -84,13 +126,14 @@ namespace P4Projekt_2.Baza
                     _tb11.Text
                         );
 
-                _lab1.Visibility = Visibility.Visible;
+                
                 using (BazaPracownikow db = new BazaPracownikow())
                 {
                     db.Pracownicy.Add(_newEmployee);
                     db.SaveChanges();
                 }
-                _tb01.Visibility = Visibility.Visible;
+               
+                if (worker.IsBusy) worker.CancelAsync();
                 this.Close();
             }
             
@@ -98,6 +141,7 @@ namespace P4Projekt_2.Baza
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            if (worker.IsBusy) worker.CancelAsync();
             this.Close();
         }
     }
