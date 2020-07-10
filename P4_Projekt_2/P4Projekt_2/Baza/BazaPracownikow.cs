@@ -4,6 +4,7 @@ namespace P4Projekt_2.Baza
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    //using Microsoft.EntityFrameworkCore;
 
     public partial class BazaPracownikow : DbContext
     {
@@ -11,6 +12,7 @@ namespace P4Projekt_2.Baza
             : base("name=BazaPracownikow")
         {
         }
+       
         
         public virtual DbSet<Pracownicy> Pracownicy { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
@@ -49,5 +51,6 @@ namespace P4Projekt_2.Baza
                 .IsFixedLength()
                 .IsUnicode(false);
         }
+        
     }
 }

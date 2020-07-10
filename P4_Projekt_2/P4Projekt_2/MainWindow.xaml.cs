@@ -42,8 +42,10 @@ namespace P4Projekt_2
             InitializeComponent();
             _Label_2.Content = "Kliknij dwukrotnie przycisk wyboru aby odswierzyc";
             _DatePicker.SelectedDate = DateTime.Now;
+            
             worker1.WorkerSupportsCancellation = true;
-            _Button_1.IsEnabled = false;
+            
+            _Button_1.IsEnabled = false; //cos nie dziala
             
 
             DisplaySelectionButton(0, 0, 0);
@@ -74,7 +76,7 @@ namespace P4Projekt_2
             {
                 case 1: { break; }
                 case 2: { break; }
-                case 3: { break; }
+                case 3: { new AddEmployeeWindow().ShowDialog(); break; }
             }
         }
 
@@ -152,7 +154,7 @@ namespace P4Projekt_2
             List<Czas_Pracy> _list = new List<Czas_Pracy>();
             using (SqlConnection connect = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand($"SELECT * FROM Zaklad WHERE Data_dnia = {_savedDate}", connect))
+                using (SqlCommand command = new SqlCommand($"SELECT * FROM Czas_Pracy WHERE Data_dnia = {_savedDate.Date}", connect))
                 {
                     connect.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -161,10 +163,10 @@ namespace P4Projekt_2
 
                             _list.Add(new Czas_Pracy(
                                 reader[0].ToString(),
-                                 Convert.ToDateTime(reader[1]).Date,
+                                Convert.ToDateTime(reader[1]).Date,
                                 reader[2].ToString(),
-                                Convert.ToDateTime(reader[3]).TimeOfDay,
-                                Convert.ToDateTime(reader[4]).TimeOfDay
+                                (TimeSpan)reader[3],
+                                (TimeSpan)reader[4]
                                 ));
                         }
                     connect.Close();
@@ -205,7 +207,7 @@ namespace P4Projekt_2
 
                 if (worker1.IsBusy) worker1.CancelAsync();
                 worker1.DoWork += worker_DoWork_atendance;
-                worker1.RunWorkerAsync();
+                if (!worker1.IsBusy) worker1.RunWorkerAsync();
 
 
                 _TabelaObecnosci.ItemsSource = Lista_obecnosci;
@@ -225,7 +227,7 @@ namespace P4Projekt_2
                 
                 if (worker1.IsBusy) worker1.CancelAsync();
                 worker1.DoWork += worker_DoWork_loadFacilities;
-                worker1.RunWorkerAsync();
+                if (!worker1.IsBusy) worker1.RunWorkerAsync();
                 
 
                 _TabelaZakladow.ItemsSource = Lista_Zakladow;
@@ -245,7 +247,7 @@ namespace P4Projekt_2
                 
                 if (worker1.IsBusy) worker1.CancelAsync();
                 worker1.DoWork += worker_DoWork_loadEmplyees;
-                worker1.RunWorkerAsync();
+                if (!worker1.IsBusy) worker1.RunWorkerAsync();
                 
 
                 _TabelaPracownikow.ItemsSource = Lista_pracownikow;

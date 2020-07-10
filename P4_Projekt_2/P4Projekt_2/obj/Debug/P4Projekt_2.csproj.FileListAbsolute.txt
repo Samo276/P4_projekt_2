@@ -164,3 +164,5 @@ G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\P4Projekt_2.Properties
 G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\P4Projekt_2.csproj.GenerateResource.cache
 G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\P4Projekt_2.csproj.CoreCompileInputs.cache
 G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\P4Projekt_2.csproj.CopyComplete
+G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\AddEmployeeWindow.g.cs
+G:\ATH\P4\P4_projekt_2\P4_Projekt_2\P4Projekt_2\obj\Debug\AddEmployeeWindow.baml
