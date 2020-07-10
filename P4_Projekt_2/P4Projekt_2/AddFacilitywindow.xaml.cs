@@ -46,12 +46,13 @@ namespace P4Projekt_2.Baza
             List<int> _new_id = new List<int>();
             using (BazaPracownikow db = new BazaPracownikow())
             {
-                var lp = db.Zaklad.Where(x => x.Id_zakladu != null).ToList<Zaklad>();
+                /*var lp = db.Zaklad.Where(x => x.Id_zakladu != null).ToList<Zaklad>();
                 foreach (var item in lp)
                 {
                     _new_id.Add(Convert.ToInt32(item.Id_zakladu));
                 }
-                _liczbaZakladow = _new_id.Max();
+                _liczbaZakladow = _new_id.Max();*/
+                _liczbaZakladow = db.Zaklad.Where(x=> x.Id_zakladu !=null).Count();
             }
         }
         public void CheckIfCorrect()

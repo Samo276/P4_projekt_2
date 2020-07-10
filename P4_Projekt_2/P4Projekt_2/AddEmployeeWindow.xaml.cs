@@ -42,22 +42,24 @@ namespace P4Projekt_2.Baza
             List<int> _new_id = new List<int>();
             using (BazaPracownikow db = new BazaPracownikow())
             {
-                var lp = db.Zaklad.Where(x => x.Id_zakladu != null).ToList<Zaklad>();
+                /*var lp = db.Zaklad.Where(x => x.Id_zakladu != null).ToList<Zaklad>();
                 foreach (var item in lp)
                 {
                     _new_id.Add(Convert.ToInt32(item.Id_zakladu));
                 }
-                _liczbaZakladow = _new_id.Max();
+                _liczbaZakladow = _new_id.Max();*/
+                _liczbaZakladow = db.Zaklad.Where(x => x.Id_zakladu != null).Count();
             }
             List<int> _new_idp = new List<int>();
             using (BazaPracownikow db = new BazaPracownikow())
             {
-                var lp2 = db.Pracownicy.Where(x => x.Id_pracownika != null).ToList<Pracownicy>();
+                /*var lp2 = db.Pracownicy.Where(x => x.Id_pracownika != null).ToList<Pracownicy>();
                 foreach (var item in lp2)
                 {
                     _new_idp.Add(Convert.ToInt32(item.Id_pracownika));
                 }
-                _noweIdPracownika = Convert.ToString(_new_idp.Max() + 1);
+                _noweIdPracownika = Convert.ToString(_new_idp.Max() + 1);*/
+                _noweIdPracownika = Convert.ToString(db.Pracownicy.Where(x => x.Id_pracownika != null).Count() +1 );
             }
 
         }
