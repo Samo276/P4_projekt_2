@@ -75,7 +75,7 @@ namespace P4Projekt_2
             switch (_AddButton4Selection)
             {
                 case 1: { break; }
-                case 2: { break; }
+                case 2: { new AddFacilitywindow().ShowDialog(); break; }
                 case 3: { new AddEmployeeWindow().ShowDialog(); break; }
             }
         }
