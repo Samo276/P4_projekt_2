@@ -58,8 +58,8 @@
             <ListView.View >
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id_pracownika}" Header="Id" Width="auto"/>
-                    <!--GridViewColumn DisplayMemberBinding="{Binding Data_dnia}" Header="Data" Width="auto"/-->
-                    <GridViewColumn DisplayMemberBinding="{Binding Obecnosc}" Header="Nazwisko" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Data_dnia}" Header="Data" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Obecnosc}" Header="Obecnosc" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Godzina_rozpoczecia_zmiany}" Header="Godzina rozpoczecia zmiany" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Godzina_zakonczenia_zmiany}" Header="Godzina zakonczenia zmiany" Width="auto"/>
                     

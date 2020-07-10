@@ -41,13 +41,10 @@ namespace P4Projekt_2
         {         
             InitializeComponent();
             _Label_2.Content = "Kliknij dwukrotnie przycisk wyboru aby odswierzyc";
-            _DatePicker.SelectedDate = DateTime.Now;
+            _DatePicker.SelectedDate = Convert.ToDateTime("2020-05-03");
             
             worker1.WorkerSupportsCancellation = true;
             
-            _Button_1.IsEnabled = false; //cos nie dziala
-            
-
             DisplaySelectionButton(0, 0, 0);
             SetDefaultButtonTextAndStatus();
             
@@ -150,29 +147,16 @@ namespace P4Projekt_2
         }
         private void worker_DoWork_atendance(object sender, DoWorkEventArgs e)
         {
+            
 
-            List<Czas_Pracy> _list = new List<Czas_Pracy>();
-            using (SqlConnection connect = new SqlConnection(connectionString))
+            if (_savedDate == null) _savedDate = DateTime.Now.Date; 
+             
+
+            using (var db = new BazaPracownikow())
             {
-                using (SqlCommand command = new SqlCommand($"SELECT * FROM Czas_Pracy WHERE Data_dnia = {_savedDate.Date}", connect))
-                {
-                    connect.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                        while (reader.Read())
-                        {
-
-                            _list.Add(new Czas_Pracy(
-                                reader[0].ToString(),
-                                Convert.ToDateTime(reader[1]).Date,
-                                reader[2].ToString(),
-                                (TimeSpan)reader[3],
-                                (TimeSpan)reader[4]
-                                ));
-                        }
-                    connect.Close();
-                }
-                Lista_obecnosci = _list;
+                Lista_obecnosci = db.Czas_Pracy.Where(x => x.Data_dnia == _savedDate).ToList<Czas_Pracy>();
             }
+
         }
 
         //-----------------------------------------------------------------------------------
@@ -196,7 +180,7 @@ namespace P4Projekt_2
             if (czas_pracy == 1)
             {
                 _AddButton4Selection = 1;
-                _DatePicker.SelectedDate = DateTime.Now;
+                //_DatePicker.SelectedDate = DateTime.Now;
                 _DatePicker.Visibility = Visibility.Visible;
                 _TabelaObecnosci.Visibility = Visibility.Visible;
                 _DatePicker.IsEnabled = true;

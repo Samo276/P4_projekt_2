@@ -8,6 +8,10 @@ namespace P4Projekt_2.Baza
 
     public partial class Czas_Pracy
     {
+        public Czas_Pracy()
+        {
+        }
+
         public Czas_Pracy(string id_pracownika, DateTime data_dnia, string obecnosc, TimeSpan? godzina_rozpoczecia_zmiany, TimeSpan? godzina_zakonczenia_zmiany)
         {
             Id_pracownika = id_pracownika;
