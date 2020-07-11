@@ -12,7 +12,9 @@ Pozwala również na dodawanie:
 po naciśnięciu wyświetlą one odpowiednią kategorię w listview znajdującym się obok,
 ponowne naciśnięcie tego samego klawisza powoduje wczytanie/odświerzenie danych w listview.
 
-Dzialanie _Button_4 jest zależne od wybranej kategorii.
+	Dzialanie _Button_4 jest zależne od wybranej kategorii.
+Nacisnięcie go powoduje otwarcie adekwatnego formurza do dodawania wybranego elementu do bazy danych.
+Formularz sprawdza poprawnośc danych przed wprowadzeniem do bazy i podświetla błednie wypełnione pola.
 
 -------------------------------------------------Dalsze usprawnienia:------------------------------------------------
 
@@ -22,6 +24,8 @@ jego nazwę.
 	Tak samo przy tworzeniu nowego pracownika można zastąpić textbox przyjmujący numer zakładu w którym 
 będzie pracował pracownik comboBox-em z którego wybierzemy nazwę zakładu. W przy nadawaniu urlopu z kolei
 comboBox-em który będzie wyświetlał imiona i nazwiska pracowników.
+	Dużym ulepszenie byłoby również dodanieprzycisku edytuj który amieniałby zawartość istniejących rekordow
+w bazie danych.
 	
 -------------------------------------------------Często Zadawane Pytania:--------------------------------------------
 
