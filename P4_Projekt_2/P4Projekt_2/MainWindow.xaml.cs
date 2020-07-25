@@ -33,7 +33,7 @@ namespace P4Projekt_2
         public DateTime _savedDate { get; set; } 
         public int _AddButton4Selection { get; set; } = 0;
 
-        public string connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=BazaPracownikow;Trusted_Connection=True;";
+        //public string connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=BazaPracownikow;Trusted_Connection=True;";
         private readonly BackgroundWorker worker1 = new BackgroundWorker();
         
 
@@ -85,78 +85,28 @@ namespace P4Projekt_2
         //background workery
         private void worker_DoWork_loadFacilities(object sender, DoWorkEventArgs e)
         {
-            
-            List<Zaklad> _list = new List<Zaklad>();
-            using (SqlConnection connect = new SqlConnection(connectionString))
+            using (var db = new BazaPracownikow())
             {
-                using (SqlCommand command = new SqlCommand("SELECT * FROM Zaklad", connect))
-                {
-                    connect.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                        while (reader.Read())
-                        {
-
-                            _list.Add(new Zaklad(
-                                reader[0].ToString(),
-                                reader[1].ToString(),
-                                reader[2].ToString(),
-                                reader[3].ToString(),
-                                reader[4].ToString(),
-                                reader[5].ToString(),
-                                reader[6].ToString()
-                                )); 
-                        }
-                    connect.Close();
-                }
-                Lista_Zakladow = _list;
+                Lista_Zakladow = db.Zaklad.ToList<Zaklad>();
             }
         }
     
-
         private void worker_DoWork_loadEmplyees(object sender, DoWorkEventArgs e)
         {
-            
-            List<Pracownicy> _list = new List<Pracownicy>();
-            using (SqlConnection connect = new SqlConnection(connectionString))
+            using (var db = new BazaPracownikow())
             {
-                using (SqlCommand command = new SqlCommand("SELECT * FROM Pracownicy", connect))
-                {
-                    connect.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                        while (reader.Read())
-                        {
-
-                            _list.Add(new Pracownicy(
-                                reader[0].ToString(),
-                                reader[1].ToString(),
-                                reader[2].ToString(),
-                                Convert.ToDateTime(reader[3]).Date,
-                                reader[4].ToString(),
-                                reader[5].ToString(),
-                                reader[6].ToString(),
-                                reader[7].ToString(),
-                                reader[8].ToString(),
-                                reader[9].ToString(),
-                                reader[10].ToString()
-                                ));
-                        }
-                    connect.Close();
-                }
-                Lista_pracownikow = _list;
-            }   
+                Lista_pracownikow = db.Pracownicy.ToList<Pracownicy>();
+            }
         }
+
         private void worker_DoWork_atendance(object sender, DoWorkEventArgs e)
         {
-            
-
             if (_savedDate == null) _savedDate = DateTime.Now.Date; 
-             
 
             using (var db = new BazaPracownikow())
             {
                 Lista_obecnosci = db.Czas_Pracy.Where(x => x.Data_dnia == _savedDate).ToList<Czas_Pracy>();
             }
-
         }
 
         //-----------------------------------------------------------------------------------
@@ -169,7 +119,7 @@ namespace P4Projekt_2
         {
             if (!_Button_4.IsEnabled) _Button_4.IsEnabled = true;
             //if (!_Button_5.IsEnabled) _Button_5.IsEnabled = true;
-            _Button_5.Visibility = Visibility.Collapsed;
+            _Button_5.Visibility = Visibility.Collapsed; // nie ma zadnego kodu
 
             _DatePicker.Visibility = Visibility.Collapsed;
             

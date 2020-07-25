@@ -23,6 +23,7 @@ namespace P4Projekt_2.Baza
     {
         public int _liczbaZakladow { get; set; }
         public string _noweIdPracownika { get; set; }
+
         private readonly BackgroundWorker worker = new BackgroundWorker();
         public AddEmployeeWindow()
         {
